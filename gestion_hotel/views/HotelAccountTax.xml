@@ -1,0 +1,43 @@
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="hotel_account_tva_tax_const" model="ir.ui.view">
+        <field name="name">hotel_account_tva_tax_const</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="idTvaHotel" invisible="1" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="hotel_account_tax_invoice_field" model="ir.ui.view">
+        <field name="name">hotel_account_tax_invoice_field</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='amount_tax']" position="after">
+                <field name="tax_hotel_sejour" readonly="1" attrs="{'invisible':[('is_reservation','=',False)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="hotel_account_payment_add_reserv" model="ir.ui.view">
+        <field name="name">hotel_account_payment_add_reserv</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='payment_transaction_id']" position="after">
+                <field name="is_hotel_reservation" invisible="1"/>
+                <field name="reservation_hotel_id" attrs="{'invisible':[('is_hotel_reservation','=',False)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

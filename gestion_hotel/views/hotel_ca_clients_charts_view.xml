@@ -1,0 +1,88 @@
+<odoo>
+
+    <record model="ir.ui.view" id="view_order_line_graphXXXXXXXXXXXXXXX">
+       <field name="name">Graph</field>
+       <field name="model">hotel.client_ca_c</field>
+       <field name="type">graph</field>
+       <field name="arch" type="xml">
+             <graph string="Sales Order Lines" stacked="False">
+                  <field name="year" group="True"/>
+                  <field name="name" operator="*"/>
+                  <field name="amount" operator="*" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="view_order_line_graphXXXXXXXXXXXXX11">
+       <field name="name">Graph</field>
+       <field name="model">hotel.months_ca_c</field>
+       <field name="type">graph</field>
+       <field name="arch" type="xml">
+             <graph string="Sales Order Lines" stacked="False">
+                  <field name="year" group="True"/>
+                  <field name="name" operator="*"/>
+                  <field name="amount" operator="*" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="view_order_line_graphXXXXXXXXXXXXX22">
+       <field name="name">Graph</field>
+       <field name="model">hotel.saisons_ca_c</field>
+       <field name="type">graph</field>
+       <field name="arch" type="xml">
+             <graph string="Sales Order Lines" stacked="False">
+                  <field name="year" group="True"/>
+                  <field name="name" operator="*"/>
+                  <field name="amount" operator="*" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_order_line_graphXXXXXXXXXXXXX33">
+       <field name="name">Graph</field>
+       <field name="model">hotel.region_ca_c</field>
+       <field name="type">graph</field>
+       <field name="arch" type="xml">
+             <graph string="Sales Order Lines" stacked="False">
+                  <field name="year" group="True"/>
+                  <field name="name" operator="*"/>
+                  <field name="amount" operator="*" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="hotel_clients_stat_charts_action_view" model="ir.actions.act_window">
+        <field name="name">CCA</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.client_ca_c</field>
+        <field name="view_mode">graph</field>
+    </record>
+    <record id="hotel_clients_stat_charts_action_view_M1" model="ir.actions.act_window">
+        <field name="name">CCA</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.months_ca_c</field>
+        <field name="view_mode">graph</field>
+    </record>
+    <record id="hotel_clients_stat_charts_action_view_S1" model="ir.actions.act_window">
+        <field name="name">CCA</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.saisons_ca_c</field>
+        <field name="view_mode">graph</field>
+    </record>
+
+    <record id="hotel_clients_stat_charts_action_view_R1" model="ir.actions.act_window">
+        <field name="name">CCA</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.region_ca_c</field>
+        <field name="view_mode">graph</field>
+    </record>
+    <menuitem id="XXX1_XXX2" name="Clients" parent="hotel_stat_categ" action="hotel_clients_stat_charts_action_view" sequence="5"/>
+    <menuitem id="XXX3_XXX3" name="Months" parent="hotel_stat_categ" action="hotel_clients_stat_charts_action_view_M1" sequence="6"/>
+    <menuitem id="XXX4_XXX4" name="Saisons" parent="hotel_stat_categ" action="hotel_clients_stat_charts_action_view_S1" sequence="7"/>
+    <menuitem id="XXX5_XXX5" name="Regions" parent="hotel_stat_categ" action="hotel_clients_stat_charts_action_view_R1" sequence="8"/>
+
+</odoo>

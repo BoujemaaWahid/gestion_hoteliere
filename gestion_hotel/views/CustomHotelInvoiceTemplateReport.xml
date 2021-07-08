@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <template id="report_custom_invoice_with_payments" inherit_id="account.report_invoice_document_with_payments" customize_show="True">
+           <xpath expr="//t[@t-set='address']" position="replace">
+               <t t-if="o.is_reservation">
+                   <div class="pull-right">
+                       <table>
+                           <tr><td><b><t t-esc="o.company_id.name"/></b></td></tr>
+                           <tr><td>&#160;</td></tr>
+                           <tr>
+                               <td><b>Name :&#160;</b></td>
+                               <td>
+                                    <t t-esc="o.reservation_id.passager_name"/>
+                               </td>
+                            </tr>
+
+                             <tr>
+                                 <td><b>&#160;&#160;&#160;&#160;Cin :&#160;</b></td>
+                                 <td>
+                                    <t t-esc="o.reservation_id.passager_cin"/>
+                                 </td>
+                            </tr>
+
+                           <t t-if="o.reservation_id.passager_street is not False">
+                               <tr>
+                                    <td>&#160;&#160;&#160;&#160;&#160;&#160;&#160;</td>
+                                   <td><t t-esc="o.reservation_id.passager_street"/></td>
+                               </tr>
+                            </t>
+                       </table>
+                   </div>
+               </t>
+               <t t-else="">
+                   <t t-set="address">
+                    <address t-field="o.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                    <div t-if="o.partner_id.vat" class="mt16"><t t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>: <span t-field="o.partner_id.vat"/></div>
+                </t>
+               </t>
+           </xpath>
+           <xpath expr="//div[@id='informations']" position="after">
+               <div id="reservation_infos" class="row mt32 mb32" t-if="o.is_reservation">
+
+                   <div name="checkin_customer" class="col-auto mw-100 mb-2" >
+                            <strong>Check in :</strong>
+                            <p class="m-0" t-field="o.check_in_customer"/>
+                    </div>
+
+                   <div name="checkout_customer" class="col-auto mw-100 mb-2" >
+                            <strong>Check out :</strong>
+                            <p class="m-0" t-field="o.check_out_customer"/>
+                    </div>
+
+                    <div name="Nights" class="col-auto mw-100 mb-2" >
+                            <strong>Night(s) :</strong>
+                            <p class="m-0" t-field="o.nightsNumber"/>
+                    </div>
+
+               </div>
+           </xpath>
+
+           <xpath expr="//div[@id='total']/div/table/t" position="after">
+               <tr t-if="o.is_reservation">
+                    <td>Tax séjour</td><td class="text-right o_price_total"><p t-field="o.tax_hotel_sejour"/></td>
+               </tr>
+           </xpath>
+        </template>
+
+    </data>
+</odoo>

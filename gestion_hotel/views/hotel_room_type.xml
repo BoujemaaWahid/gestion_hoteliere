@@ -1,0 +1,82 @@
+<odoo>
+    <record id="room_type_tree_view" model="ir.ui.view">
+        <field name="name">room_type_tree_view</field>
+        <field name="model">hotel.room.type</field>
+        <field name="arch" type="xml">
+            <tree string="Rooms category">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="rooms" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+    <record id="room_type_form_view" model="ir.ui.view">
+        <field name="name">room_type_form_view</field>
+        <field name="model">hotel.room.type</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form string="Floor Form">
+                <header>
+                    <field name="state" widget="statusbar" nolabel="1" readonly="1"/>
+                </header>
+                <sheet>
+                    <field name="image_medium" widget="image" class="oe_avatar"/>
+                    <group>
+
+                                    <field name="name"/>
+                                    <field name="lst_price" required="1"/>
+                                    <field name="typeOfProduct" invisible="1" readonly="0"/>
+                    </group>
+                    <notebook>
+                        <page name="categoryInformations" string="Taxes">
+                            <separator colspan='4' string="Supplier Taxes" />
+                            <field name="supplier_taxes_id" colspan="4" nolabel='1'
+                                help='List of supplier taxes if there any on the defined room. ' />
+                            <newline />
+                            <separator colspan='4' string="Customer Taxes" />
+                            <field name="taxes_id" colspan="4" nolabel='1'
+                                help='Customer taxes apply on the perticular room. ' />
+                        </page>
+
+
+                        <page name="RoomsCategorys" string="Rooms">
+                                <group>
+                                    <field name="rooms">
+                                        <tree editable="top" create="false" delete="false">
+                                            <field name="name"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                        </page>
+                        <page string="Description">
+                            <field name="description" placeholder="Internal notes..."/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    		<record id="room_type_search_view" model="ir.ui.view">
+			<field name="name">room.type.search.view</field>
+			<field name="model">hotel.room.type</field>
+			<field name="arch" type="xml">
+				<search string="Type Informations">
+					<field name="state"/>
+                    <filter name="state" domain="[('state','=','available')]" string="Available"/>
+                    <filter name="state" domain="[('state','=','saturated')]" string="Saturated"/>
+				</search>
+
+			</field>
+		</record>
+    <record id="room_type_action_window" model="ir.actions.act_window">
+        <field name="name">Rooms category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.room.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="hotel_room_type" name="Types" groups="gestion_hotel_manager_X2,gestion_hotel_reception" parent="room_menu_categ" action="room_type_action_window" sequence="3"/>
+
+</odoo>

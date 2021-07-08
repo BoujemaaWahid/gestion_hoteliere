@@ -1,0 +1,26 @@
+<odoo>
+    <record id="hotel_facturation_sejour_view" model="ir.ui.view">
+        <field name="name">hotel.facturation.sejour.view</field>
+        <field name="model">hotel.facture</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="hotel_invoice_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_facturation_sejour_action" model="ir.actions.act_window">
+        <field name="name">Facturation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.facture</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="UNIQUE_ID_categ" name="Facture" parent="hotel_root" action="hotel_facturation_sejour_action" sequence="1"/>
+
+</odoo>

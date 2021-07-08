@@ -1,0 +1,8 @@
+<odoo>
+    <record id="gestion_hotel_manager_X2" model="res.groups">
+        <field name="name">Hotel manager</field>
+
+    </record><record id="gestion_hotel_reception" model="res.groups">
+        <field name="name">Hotel reception</field>
+    </record>
+</odoo>

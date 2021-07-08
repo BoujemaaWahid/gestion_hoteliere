@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+        <template id="main_courante_template_report1">
+
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <div class="infos">
+                <img width="100px" height="100px" style="border-radius:50px;"
+                    t-att-src="'data:image/png;base64,%s' % to_text(company.logo_web)" />
+                <h2 class="pull-right">
+                    <t t-esc="company.name" />
+                </h2>
+                <center>
+                    <h1>Main Courante <p>(Rapport
+                            <t t-esc="today" />)</p>
+                    </h1>
+                </center>
+            </div>
+
+
+                    <div class="infos">
+                        <t t-if="payments">
+                            <div class="pull-left" t-if="isAll == True">
+                                <p> Tous les payments </p>
+                            </div>
+                            <div class="pull-left" t-if="isAll == False">
+                                <t t-if="date_debut == date_fin">
+
+                                    <strong>Date : </strong>
+                                    <p t-esc="date_debut" />
+                                </t>
+                                <t t-else="">
+                                    <table border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Début : </strong>
+                                                </td>
+                                                <td>
+                                                    <p t-esc="date_debut" />
+                                                </td>
+                                                <td style="width:25px">
+
+                                                </td>
+                                                <td>
+                                                    <strong>Fin :</strong>
+                                                </td>
+                                                <td>
+                                                    <p t-esc="date_fin" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </t>
+
+                            </div>
+                            <div class="pull-right">
+                                <table border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <h4>Total :</h4>
+                                            </td>
+                                            <td>
+                                                <h5>
+                                                    <t t-esc="round(total,2)" />
+                                                    <small style="font-size:15px;">€</small>
+                                                </h5>
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <table class="table table-condensed table-bordered" style="width: 100%">
+                                <thead>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Partner</th>
+                                    <th class="text-center">Amount</th>
+                                    <th class="text-center">Reservation No</th>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="payments" t-as="pym">
+                                        <tr>
+                                            <td><span t-esc="pym['payment_date']" /></td>
+                                            <td><span t-esc="pym['name']" /></td>
+                                            <td><span t-esc="pym['partner_id']['name']" /></td>
+                                            <td><span t-esc="pym['amount']" /></td>
+                                            <td><span t-esc="pym['reservation_hotel_id']['reservation_no']" /></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <p>Aucun payments touvé dans le date choisi</p>
+                        </t>
+
+
+                    </div>
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

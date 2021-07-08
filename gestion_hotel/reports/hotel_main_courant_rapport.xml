@@ -1,0 +1,49 @@
+<!-- QWeb Reports -->
+<!-- NAME & FILE_NAME should be the same -->
+<odoo>
+        <report
+            id="hotel_stat_main_courante_report_file"
+            model="hotel.stat.payment"
+            report_type="qweb-pdf"
+            string="Imprime main courante"
+            attachment_use="False"
+            name="gestion_hotel.main_courante_template_report1"
+        />
+
+    <report
+            id="hotel_chiffre_affaire_report_file"
+            model="hotel.chiffre_affaire"
+            report_type="qweb-pdf"
+            string="Imprime chiffre d'affaires"
+            attachment_use="False"
+            name="gestion_hotel.hotel_c_a_template_report3"
+        />
+
+        <report
+            id="hotel_stat_free_rooms_report_file"
+            model="room.stat.free"
+            report_type="qweb-pdf"
+            string="rooms"
+            attachment_use="False"
+            name="gestion_hotel.hotel_stat_rooms_template_report2"
+        />
+
+    <record id="paperformat_rooms_stat_hotel" model="report.paperformat">
+        <field name="name">PF Monthly Report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">3</field>
+        <field name="dpi">90</field>
+    </record>
+    <record id="gestion_hotel.hotel_stat_free_rooms_report_file" model="ir.actions.report">
+      <field name="paperformat_id" ref="gestion_hotel.paperformat_rooms_stat_hotel" />
+    </record>
+</odoo>

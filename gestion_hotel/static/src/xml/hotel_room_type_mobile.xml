@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="mobile_rooms_types">
+        <t t-set="vals" t-value="widget.get('art')"/>
+            <t t-foreach="vals" t-as="V">
+
+                <span class="span_room_type_mobile"><t t-esc="V"/></span>
+            </t>
+    </t>
+</templates>

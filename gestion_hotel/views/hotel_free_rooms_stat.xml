@@ -1,0 +1,70 @@
+<odoo>
+
+    <record id="hotel_free_rooms_form_view_cs" model="ir.ui.view">
+        <field name="name">hotel_free_rooms_form_view_cs</field>
+        <field name="model">hotel.stat.rooms_states</field>
+        <field name="arch" type="xml">
+            <form string="Main courante" edit="false">
+                <header>
+                    <!--<button name="get_report" class="btn-primary" icon="fa-print" string=" Print" type="object"/>-->
+                </header>
+                <sheet>
+
+                <!--<field name="isAll" invisible="1"/>-->
+                    <!--<div class="pull-left">-->
+                        <!--<p style="font-size: 25px;font-family:Comic Sans MS;"><field name="date_order" readonly="1" /><small style="font-size: 11px;"> Today</small></p>-->
+                    <!--</div>-->
+                    <!--<div class="oe_button_box" name="button_box">-->
+                        <!--<button name="setNotAll" string="Date Range" type="object" class="oe_stat_button" icon="fa-calendar"-->
+                        <!--attrs="{'invisible':[('isAll','=',False)]}"/>-->
+
+                        <!--<button name="setAll" string="All Payments" type="object" class="oe_stat_button" icon="fa-bullhorn"-->
+                        <!--attrs="{'invisible':[('isAll','=',True)]}"-->
+                        <!--/>-->
+                        <!--<br/>-->
+                        <!--<div class="pull-right">-->
+                    <!--<p class="font-weight-bold"><field name="montant_totale" widget="monetary" readonly="1" style="font-size: 20px;"/>€</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                        <div class="form" >
+                            <!--attrs="{'invisible':[('isAll','=',True)]}"-->
+                            <div class ="row">
+                                <div class="col"></div>
+                                <div class="col">
+                                    <p>From:</p><field name="date_debut" />
+                                </div>
+                                <div class="col">
+                                    <p>To  :</p><field name="date_fin"/>
+                                </div>
+                                </div>
+                        </div>
+
+
+                    <field name="available"/>
+                    <field name="occupied"/>
+
+
+                    <field name="rooms" readonly="1">
+                        <tree>
+                            <field name="name"/>
+                            <field name="state"/>
+                            <!--<field name="partner_id"/>-->
+                            <!--<field name="amount"/>-->
+                            <!--<field name="reservation_hotel_id"/>-->
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_free_rooms_view_action_cs" model="ir.actions.act_window">
+        <field name="name">Rooms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.stat.rooms_states</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <menuitem id="hotel_stat_free_rooms" groups="gestion_hotel_manager_X2,gestion_hotel_reception" name="Rooms" parent="hotel_stat_categ" action="hotel_free_rooms_view_action_cs" sequence="2"/>
+</odoo>

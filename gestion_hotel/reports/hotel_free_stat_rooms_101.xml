@@ -1,0 +1,107 @@
+<odoo>
+    <data>
+        <template id="hotel_stat_rooms_template_report2">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                   <div class="infos">
+
+                       <div>
+                <img width="100px" height="100px" style="border-radius:50px;"
+                    t-att-src="'data:image/png;base64,%s' % to_text(company.logo_web)" />
+                <h2 class="pull-right">
+                    <t t-esc="company.name" />
+                </h2>
+                <center>
+                    <h1>Occupations des chambres <p>(Rapport
+                            <t t-esc="today" />)</p>
+                    </h1>
+                </center>
+            </div>
+                           <table border="0">
+                           <tr>
+                               <td>Période de  :</td>
+                               <td t-esc="date_debut"></td>
+                                <td width="15px"></td>
+                               <td>à :</td>
+                               <td t-esc="date_fin"></td>
+                             </tr>
+
+                       </table>
+                       <div class="pull-right" style="margin:5px;padding:10px;border: 1px solid black; border-radius:17px">
+                           <table>
+                               <tr>
+                                   <td>Libre : </td>
+                                   <td>
+                                        <p style="
+          background-color:#6ab7e4;
+          margin:2px; width:17px; height:17px"></p>
+                                   </td>
+                               </tr>
+
+                                 <tr>
+                                   <td>Réserver : </td>
+                                   <td>
+                                        <p style="
+          background-color:#e67d7d;
+          margin:2px; width:17px; height:17px"></p>
+                                   </td>
+                               </tr>
+
+                                 <tr>
+                                   <td>être vide aujourd'hui : </td>
+                                   <td>
+                                        <p style="
+          background-color:#28a745;
+          margin:2px; width:17px; height:17px"></p>
+                                   </td>
+                               </tr>
+                           </table>
+                       </div>
+                <t t-foreach="TAB" t-as="row">
+
+
+
+                       <table class="table table-bordered">
+                              <thead>
+                           <t t-foreach="row['header']" t-as="hd">
+                               <th style="text-align:center;" t-attf-style="background-color:#f8f9fa!important;" t-esc="hd"></th>
+                           </t>
+                           </thead>
+                            <t t-set="style" t-value="'bgcolor:blue'" />
+                           <t t-foreach="row['body']" t-as="detail">
+                               <tr>
+
+                                   <t t-if="detail['isOut'] == 1">
+                                       <td style="text-align:center;" t-attf-style="background-color:#28a745!important;"><t  t-esc="detail['name']"/></td>
+                                   </t>
+                                   <t t-else="">
+                                       <td t-attf-style="background-color:#f8f9fa!important;">
+                                           <t t-esc="detail['name']" />
+
+                                       </td>
+                                   </t>
+
+                                   <t t-foreach="detail['value']" t-as="status">
+                                       <t t-if="status['state'] == 'Free'">
+                                           <td t-attf-style="background-color:#6ab7e4!important;text-align:center;">
+                                               <t t-esc="status['state']"/>
+                                           </td>
+                                       </t>
+                                       <t t-if="status['state'] != 'Free' and status['is_draft'] == 'No'">
+                                           <td t-attf-style="background-color:#e67d7d!important;text-align:center;" >
+                                               <t t-esc="status['state']"/>
+                                           </td>
+                                       </t>
+                                   </t>
+                               </tr>
+                           </t>
+
+                       </table>
+                </t>
+                   </div>
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

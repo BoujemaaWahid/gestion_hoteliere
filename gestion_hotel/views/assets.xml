@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="assets_backend_" name="Quick Reservation Summary"
+        inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/gestion_hotel/static/src/css/room_summary.css" />
+            <script type="text/javascript"
+                src="/gestion_hotel/static/src/js/hotel_room_summary.js"></script>
+        </xpath>
+    </template>
+
+     <template id="assets_backend_1_" name="Rooms"
+        inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/gestion_hotel/static/src/css/room_stat_free.css" />
+            <script type="text/javascript"
+                src="/gestion_hotel/static/src/js/hotel_room_stat_free.js"></script>
+        </xpath>
+    </template>
+
+    <template id="assets_backend_2_" name="Ca_Clients"
+        inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                src="/gestion_hotel/static/src/js/ca_clients_js.js"></script>
+        </xpath>
+    </template>
+
+
+    <template id="assets_backend_3_" name="Mb_rt"
+        inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/gestion_hotel/static/src/css/rooms_mobile_types.css" />
+            <script type="text/javascript"
+                src="/gestion_hotel/static/src/js/mobile_rooms_type_js.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

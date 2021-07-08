@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="passager_client_demo_data" model="res.partner">
+            <field name="name">Passager</field>
+            <field name="codePassager">#F0X009#</field>
+            <field name="client_cin_code">-1</field>
+        </record>
+    </data>
+
+
+    <data>
+        <record id="passager_client_demo_data" model="account.tax">
+            <field name="name">Tax des nuits</field>
+            <field name="amount_type">fixed</field>
+            <field name="amount">1.0</field>
+            <field name="idTvaHotel">#F0X009#</field>
+        </record>
+    </data>
+
+</odoo>

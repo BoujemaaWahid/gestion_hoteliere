@@ -1,0 +1,22 @@
+<odoo>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="hotel_account_invoice_form" model="ir.ui.view">
+        <field name="name">hotel.account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <br/>
+                <field name="reservation_id" attrs="{'invisible':[('is_reservation','=',False)]}" readonly="1"/>
+                <field name="nightsNumber" attrs="{'invisible':[('is_reservation','=',False)]}" readonly="1"/>
+                <field name="is_reservation" invisible="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+
+</odoo>

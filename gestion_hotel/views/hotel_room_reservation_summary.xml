@@ -1,0 +1,46 @@
+<odoo>
+
+    <record id="room_reservation_summary_form_view" model="ir.ui.view">
+        <field name="name">room.reservation.summary.form</field>
+        <field name="model">room.reservation.summary</field>
+        <field name="arch" type="xml">
+            <form string="Reservation Summary" create="false" edit="false">
+                <header>
+                    <separator string="Room Reservation Summary" colspan="4" />
+                </header>
+                <sheet>
+                    <group colspan="4" col="4">
+                        <div>
+                            <label for="date_from" string="Summary Period" />
+                            <field name="date_from" class="oe_inline" />
+                            to
+                            <field name="date_to" class="oe_inline" />
+                        </div>
+                    </group>
+                    <notebook>
+                        <page name="room_summary" string="Room Summary">
+                            <field name="summary_header" colspan="4" invisible="1" />
+                            <field name="room_summary" colspan="4" invisible="0" widget="Room_Reservation"/>
+                            <!--widget="Room_Reservation"-->
+<!--                             <widget name="Room_Reservation"></widget> -->
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_reservation_summary" model="ir.actions.act_window">
+        <field name="name">Reservation summary</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">room.reservation.summary</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <menuitem id="menu_action_hotel_room_reservation_summary" name="Reservation Summary"
+              groups="gestion_hotel_manager_X2,gestion_hotel_reception"
+        action="action_hotel_reservation_summary" parent="reservation_menu_categ"
+        sequence="2" />
+</odoo>

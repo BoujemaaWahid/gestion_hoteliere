@@ -1,0 +1,55 @@
+<odoo>
+    <record id="hotel_clients_tree_view" model="ir.ui.view">
+        <field name="name">hotel.clients.tree.view</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree string="Clients">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="client_cin_code"/>
+                <!--<field name="passager"/>decoration-danger="passager == True"-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="_hotel_clients_form_view" model="ir.ui.view">
+        <field name="name">hotel.clients.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="before">
+                        <!--<field name="passager" widget="checkbox"/>-->
+                        <field name="client_cin_code"/>
+                        <field name="codePassager" invisible="1"/>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[4]" position="after">
+                <page string="Reservations">
+                    <field name="reservations">
+                        <tree decoration-danger="state == 'cancel'" decoration-warning="state == 'consuming'" decoration-primary="state == 'done'" decoration-secondary="state == 'draft'" decoration-success="state == 'confirm'">
+                            <field name="reservation_no"/>
+                            <field name="rooms_ids" widget="many2many_tags"/>
+                            <field name="checkin"/>
+                            <field name="checkout"/>
+                            <field name="state"/>
+
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//form/sheet/notebook/page[1]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="clients_form_action" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="hotel_clients" name="Clients" parent="hotel_root" action="clients_form_action" sequence="1"/>
+</odoo>

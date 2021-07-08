@@ -1,0 +1,29 @@
+<odoo>
+    <record id="hotel_chiffre_affaire_multi" model="ir.ui.view">
+        <field name="name">hotel_chiffre_affaire_multi</field>
+        <field name="model">hotel.chiffre_affaire</field>
+        <field name="arch" type="xml">
+            <form string=""  create="false" edit="false">
+                <header>
+                    <button string="print" class="btn-primary" type="object" icon="fa-print" name="get_report"/>
+                    <field name="status" widget="radio" options="{'horizontal': true}"/>
+                </header>
+                <sheet>
+                    <field name="parent" widget="h_ca_clients"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hotel_chiffre_affaire_multi_view_action" model="ir.actions.act_window">
+        <field name="name">Chiffre d'affaire</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.chiffre_affaire</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="ch_hotel_multi_hotel" groups="gestion_hotel_manager_X2,gestion_hotel_reception" name="Chiffre d'affaires" parent="hotel_stat_categ" action="hotel_chiffre_affaire_multi_view_action" sequence="4"/>
+
+</odoo>

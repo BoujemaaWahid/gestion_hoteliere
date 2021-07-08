@@ -1,0 +1,187 @@
+<odoo>
+    <record id="services_tree_view" model="ir.ui.view">
+        <field name="name">services.tree.view</field>
+        <field name="model">hotel.services</field>
+        <field name="arch" type="xml">
+            <tree string="">
+
+                            <field name="name"/>
+                            <field name="category"/>
+                            <field name="list_price"/>
+                            <field name="have_employees"/>
+            </tree>
+        </field>
+    </record>
+
+     <!--Inherit Form View to Modify it -->
+    <record id="hotel_services_emps_hr_employees" model="ir.ui.view">
+        <field name="name">hotel.services.emps.hr.employees</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="replace">
+                <field name="services_ids"  widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='identification_id']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='job_id']" position="replace"/>
+            <xpath expr="//field[@name='parent_id']" position="replace"/>
+            <xpath expr="//field[@name='coach_id']" position="replace"/>
+        </field>
+    </record>
+
+
+    <record id="service_form_view" model="ir.ui.view">
+        <field name="name">service.form.view</field>
+        <field name="model">hotel.services</field>
+        <field name="arch" type="xml">
+            <form string="Services">
+                <header>
+                     <button name="set_out_of_order" icon="fa-times-circle" type="object"
+                        string="Out of order" states="available" class="btn btn-danger"/>
+                    <button name="set_available" icon="fa-check-circle" type="object"
+                        string="Available" states="out" class="btn btn-primary"/>
+                </header>
+                <sheet>
+                    <field name="isVotable" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="setVotable" string="Unvotable" type="object" class="oe_stat_button" icon="fa-ban"
+                        attrs="{'invisible':[('isVotable','=',True)]}"/>
+
+                        <button name="setNonVotable" string="Votable" type="object" class="oe_stat_button" icon="fa-star"
+                        attrs="{'invisible':[('isVotable','=',False)]}"
+                        />
+                    </div>
+                         <field name="image_medium" widget="image" class="oe_avatar"/>
+                        <group string="">
+                            <field name="name"/>
+                            <field name="typeOfProduct" invisible="1" readonly="0"/>
+                        </group>
+
+                    <group>
+                        <notebook>
+                            <page string="Informations">
+
+                                    <group>
+                                        <group>
+                                            <field name="service_manager"/>
+
+                                        </group>
+                                        <group>
+                                            <field name="category"/>
+                                            <field name="state"/>
+                                        </group>
+                                    </group>
+
+                                <separator colspan='4' string="Supplier Taxes" />
+
+
+                            <field name="supplier_taxes_id" colspan="4" nolabel='1'
+                                help='List of supplier taxes related to the service provided by hotel.' />
+                                <separator colspan='4' string="Cutomer Taxes" />
+
+                            <field name="taxes_id" colspan="4" nolabel='1'
+                                help='Customer taxes applied on the service.' />
+
+                            </page>
+                            <page string="Employees">
+                                <field name="employees_ids">
+                                        <tree string="Employees">
+                                            <field name="name"/>
+                                            <field name="work_phone"/>
+                                            <field name="resource_calendar_id"/>
+                                        </tree>
+                                </field>
+                            </page>
+
+
+
+                        <page string="Procurement">
+                            <group colspan="4" col="4">
+                                <field name="active" select="2" />
+                                <field name="list_price" />
+                                <field name="cost_method" string="Cost Method" />
+                                <field name="sale_ok" select="2" />
+                                <field name="standard_price" />
+                                <field name="rental" select="2" />
+                            </group>
+                            <newline />
+                            <group>
+                                <separator string="Suplliers" />
+                                <field name="seller_ids" colspan="4" nolabel="1"
+                                    widget="one2many_list" />
+                            </group>
+                        </page>
+                            <page string="Descriptions">
+                                <group>
+
+                                    <label string="Vote average" for="voteValue" attrs="{'invisible':[('isVotable','=',False)]}"/>
+                                    <span attrs="{'invisible':[('isVotable','=',False)]}"><p class="font-weight-bold"><field name="voteValue" readonly="1"/>/5</p></span>
+
+                                    <field name="description"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="_hotel_products_inherited_form_view" model="ir.ui.view">
+        <field name="name">hotel.products.inherited.form.view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='type']" position="before">
+                <field name="typeOfProduct"/>
+            </xpath>
+
+            <xpath expr="//field[@name='barcode']" position="attributes">
+                <attribute name="attrs">{'invisible':[('typeOfProduct','!=','to_other')]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='default_code']" position="attributes">
+                <attribute name="attrs">{'invisible':[('typeOfProduct','!=','to_other')]}</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="Hotel_products_inherited_tree_view" model="ir.ui.view">
+        <field name="name">hotel.products.inherited.tree.view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="account.product_product_view_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='supplier_taxes_id']" position="after">
+                <field name="typeOfProduct"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+
+
+
+
+    <record id="service_action_menu" model="ir.actions.act_window">
+        <field name="name">Service</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.services</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="hotel_employees_personals" model="ir.actions.act_window">
+        <field name="name">Employees</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+    <menuitem id="services_hotel_menu_action" groups="gestion_hotel_manager_X2,gestion_hotel_reception" name="Services" parent="srevices_menu_categ" action="service_action_menu" sequence="1"/>
+    <menuitem id="employees_hotel_menu_action" groups="gestion_hotel_manager_X2" name="Employees" parent="hotel_root" action="hotel_employees_personals" sequence="2"/>
+</odoo>

@@ -1,0 +1,8 @@
+<odoo>
+    <menuitem id="hotel_root" name="Hotel" sequence="1"/>
+  <menuitem id="room_menu_categ" name="Rooms" groups="gestion_hotel_manager_X2,gestion_hotel_reception" parent="hotel_root"  sequence="1"/>
+  <menuitem id="srevices_menu_categ" name="Services"  groups="gestion_hotel_manager_X2,gestion_hotel_reception" parent="hotel_root"  sequence="2"/>
+  <menuitem id="personal_menu_categ" name="Personals" groups="gestion_hotel_manager_X2,gestion_hotel_reception" parent="hotel_root"  sequence="3"/>
+  <menuitem id="reservation_menu_categ" name="Reservation" groups="gestion_hotel_manager_X2,gestion_hotel_reception"  parent="hotel_root"  sequence="3"/>
+  <menuitem id="hotel_stat_categ" name="Statistique" groups="gestion_hotel_manager_X2" parent="hotel_root" sequence="4"/>
+</odoo>

@@ -1,0 +1,56 @@
+<odoo>
+
+    <record id="room_stat_free_form_view_11" model="ir.ui.view">
+        <field name="name">room_stat_free_form_view_11</field>
+        <field name="model">room.stat.free</field>
+        <field name="arch" type="xml">
+            <form string="Reservation Summary" create="false" edit="false">
+                <header>
+                    <button type="object" name="getReport" string="print" class="btn-primary" icon="fa-print"/>
+                    <separator string="Room Reservation Summary" colspan="4" />
+                </header>
+                <sheet>
+                    <group colspan="4" col="4">
+                        <div>
+                            <label for="date_from" string="Period" />
+                            <field name="date_from1" class="oe_inline" />
+                            to
+                            <field name="date_to1" class="oe_inline" />
+                        </div>
+                    </group>
+                    <notebook>
+                        <page name="room_summary" string="Rooms">
+                            <field name="summary_header" colspan="4" invisible="1" />
+                            <field name="room_summary" colspan="4" invisible="0" widget="room_free_hotel_stat" />
+                            <!--widget="Room_Reservation"-->
+                            <!--                             <widget name="Room_Reservation"></widget> -->
+                        </page>
+                        <page name="rooms_ToClean" string="Rooms will be free Today">
+                            <field name="roomsToClean" readonly="1">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="capacity" />
+                                    <field name="type" />
+                                    <field name="floor" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hotel_free_room_stat_12" model="ir.actions.act_window">
+        <field name="name">Reservation summary</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">room.stat.free</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+
+    <menuitem id="menu_item_free_room_stat_113" name="Rooms states" action="action_hotel_free_room_stat_12"
+              groups="gestion_hotel_manager_X2,gestion_hotel_reception"
+        parent="hotel_stat_categ" sequence="2" />
+</odoo>

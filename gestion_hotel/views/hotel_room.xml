@@ -1,0 +1,188 @@
+<odoo>
+    <!--<template id="assets_backend" inherit_id="web.assets_backend">-->
+     <!--<xpath expr="." position="inside">-->
+         <!--<link rel="stylesheet" href="/gestion_hotel/static/src/css/theme.css"/>-->
+     <!--</xpath>-->
+<!--</template>-->
+    <record id="room_tree_view" model="ir.ui.view">
+        <field name="name">room.tree.view</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+            <tree string="Rooms" decoration-primary="state == 'available'" decoration-danger="state == 'out'" decoration-warning="state == 'occupied'">
+                <field name="name"/>
+                <!--<field name="max_adult"/>-->
+                <!--<field name="max_child"/>-->
+                <field name="capacity"/>
+                <field name="floor"/>
+                <field name="state"/>
+                <field name="type"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="room_form_view" model="ir.ui.view">
+        <field name="name">room.form.view</field>
+        <field name="model">hotel.room</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <form string="Room Form">
+                <header>
+                    <button name ="set_available" icon="fa-check-circle" type="object" attrs="{'invisible': ['|',('state', '=', 'available'),('isConsuming', '=' , True)]}" string="Available"  class="btn-primary"/>
+                    <!--<button name ="set_Occupied" icon="fa-bell" type="object" attrs="{'invisible': [('state', '=', 'occupied')]}" string="Occupied"  class="btn-warning"/>-->
+                    <button name ="set_Out_Of_Order" icon="fa-times-circle" type="object" attrs="{'invisible': ['|',('state', '=', 'out'),('isConsuming', '=' , True)]}" string="Out of order"  class="btn-danger"/>
+                    <field name="state" widget="statusbar" nolabel="1" readonly="1"/>
+                </header>
+                <sheet class="btn-primary">
+                    <field name="isConsuming" invisible="1"/>
+                    <div class="row" style="height: 3px;background-color: #ff0000b3;" attrs="{'invisible': ['|',('state', '=', 'available'),('state', '=', 'occupied')]}">
+                    </div>
+                    <div class="row" style="height: 3px;background-color: #ffc107;" attrs="{'invisible': ['|',('state', '=', 'available'),('state', '=', 'out')]}">
+
+                    </div>
+                    <div class="row" style="height: 3px;background-color: #7c7bad;" attrs="{'invisible': ['|',('state', '=', 'out'),('state', '=', 'occupied')]}">
+
+                    </div>
+                    <group string="Rooms">
+                    <group>
+                        <field name="typeOfProduct" invisible="1" readonly="0"/>
+                        <field name="image" widget='image' class="oe_avatar"/>
+                        <field name="name"/>
+                        <field name="floor"/>
+                    </group>
+                    <group>
+                        <field name="type"/>
+                        <field name="capacity"/>
+                        <field name="valid_date_begin"/>
+                        <field name="valid_date_end"/>
+                    </group>
+                    </group>
+                    <notebook>
+                        <page string="Equipement">
+                            <field name="equipements">
+                            <tree editable="top">
+                                    <field name="name" />
+                                    <field name="category_id" />
+                                    <field name="assign_date" />
+                                </tree>
+                        </field>
+                        </page>
+
+                        <page string="Description">
+                            <field string="Notes" name="notes" widget="hml"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+        <record id="kanban_room_view" model="ir.ui.view">
+        <field name="name">kkanban.room.view</field>
+      <field name="model">hotel.room</field>
+     <field name="arch" type="xml">
+
+             <kanban>
+          <field name="id"/>
+     <templates>
+     <t t-name="kanban-box">
+       <div class="oe_kanban_global_click">
+
+           <div class="row">
+               <div class="col-6">
+
+                         <img t-att-src="kanban_image('hotel.room','image',record.id.raw_value)" alt="room image" class="img-thumbnail"/>
+
+               </div>
+               <div class="col-6">
+                  <strong><field name="name"/></strong>
+
+                     <div style="white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;"><field name="type"/></div>
+                    <div style="width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;"><field name="floor"/></div>
+               <br/>
+                   <small style="padding: 2%; border: #ff0000b3 2px solid;
+border-radius: 12px;" attrs="{'invisible': ['|',('state', '=', 'available'),('state', '=', 'occupied')]}"><field name="state"/></small>
+                   <small style="padding: 2%; border: #ffc107 2px solid;
+border-radius: 12px;" attrs="{'invisible': ['|',('state', '=', 'available'),('state', '=', 'out')]}"><field name="state"/></small>
+                   <small style="padding: 2%; border: #7c7bad 2px solid;
+border-radius: 12px;" attrs="{'invisible': ['|',('state', '=', 'out'),('state', '=', 'occupied')]}"><field name="state"/></small>
+
+               </div>
+           </div>
+           <hr/>
+           <div class="row">
+               <div class="col-10">
+                   <div  style=" width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;">
+                    <field name="notes"/>
+                       </div>
+                   </div>
+               </div>
+
+       </div>
+     </t>
+     </templates>
+     </kanban>
+     </field>
+
+
+    </record>
+    <!-- Search View -->
+		<record id="room_search_view" model="ir.ui.view">
+			<field name="name">room.search.view</field>
+			<field name="model">hotel.room</field>
+			<field name="arch" type="xml">
+				<search string="Room Informations">
+					<field name="state"/>
+                    <filter name="state" domain="[('state','=','available')]" string="Disponibility"/>
+				</search>
+			</field>
+		</record>
+    <!-- Inherit Form View to Modify it -->
+    <record id="hotel_equipements_rooms_ids" model="ir.ui.view">
+        <field name="name">hotel.equipements.rooms.ids</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="replace">
+                <field name="rooms_equipement_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+    <!--Calendar View-->
+    <record id="view_room_calendar" model="ir.ui.view">
+        <field name="name">view.room.calendar</field>
+        <field name="model">hotel.room</field>
+        <field name="arch" type="xml">
+             <calendar string="Room" color="name" date_start="valid_date_begin" date_stop="valid_date_end">
+                <field name="name"/>
+            </calendar>
+        </field>
+    </record>
+
+
+
+
+
+    <record id="hotel_equipements_rooms_ids_action_view" model="ir.actions.act_window">
+        <field name="name">Equipements</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">maintenance.equipment</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <record id="room_action_window" model="ir.actions.act_window">
+        <field name="name">Rooms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.room</field>
+        <field name="view_mode">kanban,tree,form,calendar</field>
+    </record>
+    <!-- This Menu Item Must have a parent -->
+    <menuitem id="hotel_room" groups="gestion_hotel_manager_X2,gestion_hotel_reception" name="Room" parent="room_menu_categ" action="room_action_window" sequence="1"/>
+    <menuitem id="hotel_room_equipements" groups="gestion_hotel_manager_X2" name="Equipements" parent="room_menu_categ" action="hotel_equipements_rooms_ids_action_view" sequence="3"/>
+</odoo>

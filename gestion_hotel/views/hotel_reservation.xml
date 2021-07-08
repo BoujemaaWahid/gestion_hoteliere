@@ -1,0 +1,369 @@
+<odoo>
+    <record id="hotel_reservation_clients_tree_view" model="ir.ui.view">
+        <field name="name">Hotel.reservation</field>
+        <field name="model">hotel.reservation</field>
+        <field name="arch" type="xml">
+            <tree string="Reservations" decoration-danger="state == 'cancel'" decoration-primary="state == 'consuming'" decoration-success="state == 'done'">
+                <field name="reservation_no"/>
+                <field name="checkin"/>
+                <field name="checkout"/>
+                <field name="nightNumber"/>
+                <field name="state"/>
+                <field name="passager"/>
+                <field name="bool_" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="hotel_reservation_view_kanban_group_h" model="ir.ui.view">
+     <field name="name">Reservations</field>
+      <field name="model">hotel.reservation</field>
+     <field name="arch" type="xml">
+        <kanban>
+            <field name="id"/>
+            <field name="passager"/>
+            <field name="reservation_no"/>
+            <field name="passager_name"/>
+            <field name="is_mobile"/>
+            <field name="partner_id"/>
+            <field name="state"/>
+
+     <templates>
+     <t t-name="kanban-box">
+         <div class="oe_kanban_global_click">
+             <t t-if="record.passager.raw_value==true">
+                 <small>Passager :</small>
+                 <field name="passager_name"/>
+             </t>
+             <t t-else="">
+                    <small>Client :</small>
+                    <field name="partner_id"/>
+             </t>
+            <br/>
+             <p style="opacity: 0.7; font-family: Arial, Helvetica, sans-serif;">No :<field name="reservation_no" /></p>
+             <div class="form-inline" style="opacity: 0.9;
+    font-family: sans-serif;
+    color: #605e9c;">
+                    <p style="margin-left: 3%;
+    padding-right: 4%;">Checkin :<field name="checkin" widget="date"/></p>
+                    <![CDATA[&nbsp;]]>
+                    <p>Checkout :<field name="checkout" widget="date"/></p>
+             </div>
+
+			  <t t-if="record.is_mobile.raw_value==true">
+             <span class="pull-left badge" style="background-color: #f6d1c0;">Mobile</span>
+          </t>
+			 <div>
+			 </div>
+             <t t-if="record.state.raw_value=='done'">
+             <span class="pull-right badge badge-success"><field name="state"/></span>
+            </t>
+             <t t-elif="record.state.raw_value=='confirm'">
+             <span class="pull-right badge badge-primary"><field name="state"/></span>
+            </t>
+             <t t-elif="record.state.raw_value=='draft'">
+             <span class="pull-right badge badge-dark"><field name="state"/></span>
+            </t>
+             <t t-elif="record.state.raw_value=='cancel'">
+             <span class="pull-right badge badge-danger"><field name="state"/></span>
+            </t>
+             <t t-elif="record.state.raw_value=='consuming'">
+             <span class="pull-right  badge badge-info"><field name="state"/></span>
+            </t>
+         </div>
+     </t>
+     </templates>
+     </kanban>
+     </field>
+    </record>
+
+
+
+
+
+
+
+
+
+
+		<record id="reservation_search_view" model="ir.ui.view">
+			<field name="name">reservation.search.view</field>
+			<field name="model">hotel.reservation</field>
+			<field name="arch" type="xml">
+				<search string="Reservation Informations">
+					<field name="passager"/>
+                    <filter name="passager" domain="[('passager','=',True)]" string="Passager"/>
+                    <filter name="Client" domain="[('passager','=',False)]" string="Client"/>
+
+					<field name="state"/>
+                    <filter name="Draft" domain="[('state','=','draft')]" string="Draft"/>
+                    <filter name="Consume" domain="[('state','=','consuming')]" string="Consume"/>
+                    <filter name="Confirm" domain="[('state','=','confirm')]" string="Confirm"/>
+                    <filter name="Cancel" domain="[('state','=','cancel')]" string="cancelled"/>
+                    <filter name="Done" domain="[('state','=','done')]" string="Done"/>
+				</search>
+			</field>
+		</record>
+
+        <!--<record id="reservation_search_view2" model="ir.ui.view">-->
+			<!--<field name="name">reservation.search.view2</field>-->
+			<!--<field name="model">hotel.reservation</field>-->
+			<!--<field name="arch" type="xml">-->
+				<!--<search string="Reservation Informations">-->
+					<!--<field name="state"/>-->
+                    <!--<filter name="Draft" domain="[('state','=','draft')]" string="Draft"/>-->
+				<!--</search>-->
+			<!--</field>-->
+		<!--</record>-->
+
+
+    <record id="hotel_reservation_clients_form_view" model="ir.ui.view">
+        <field name="name">hotel.reservation.clients.form.view</field>
+        <field name="model">hotel.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Reservation">
+                <header>
+
+                    <button name="confirmed_reservation" string="Confirm"
+                            icon="fa-check-circle"
+                        states="draft" class="oe_highlight" type="object" />
+                    <!--<button name="create_folio" string="Create Folio" states="confirm"-->
+                        <!--class="oe_highlight" type="object" />-->
+
+                    <button name="consuming_reservation" string=" Consuming"
+                        states="confirm" class="oe_highlight" icon="fa-bed" type="object" />
+
+                    <button name="cancel_reservation" string="Cancel Reservation"
+                        states="draft,confirm" icon="fa-times-circle" class="oe_highlight" type="object" />
+
+                    <button name="action_send_reservation_mail" icon="fa-at" type="object"
+                        string="Send Reservation Email" states="confirm" class="oe_highlight" />
+
+                    <button name="set_to_draft_reservation" string="Set to Draft"
+                        states="cancel" icon="fa-arrow-left" class="oe_highlight" type="object" />
+
+
+                    <button name="set_done" string="Done"
+                        states="consuming" icon="fa-sign-out" class="oe_highlight" type="object" />
+
+
+
+                    <button name="get_invoice_reservation" class="oe_highlight" type="object"
+                             string=" Invoice" icon="fa-money" attrs="{'invisible':[('showFactureButton','=',False)]}"/>
+
+                    <field name="state" widget="statusbar" />
+
+                </header>
+                <sheet>
+                      <field name="showlabel" invisible="1"/>
+  <label for="reservation_no" string="Reservation No" attrs="{'invisible':[('showlabel','=',False)]}"/>
+                    <h1>
+                        <field name="reservation_no" class="oe_inline"/>
+                    </h1>
+                               <group>
+                                <field name="date_order"/>
+                                   <field name="showFactureButton" invisible="1"/>
+                                   <field name="nightNumber" invisible="1"/>
+                                   <field name="passager" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                   <field name="isFacturated" invisible="1"/>
+                                   <field name="invoice_id_reservation" readonly="1" attrs="{'invisible':[('isFacturated','=',False)]}"/>
+                            </group>
+                        <group col="4" attrs="{'invisible':[('passager','=',True)]}">
+                            <field name="partner_id" domain="[('customer','=',True)]" attrs="{'required':[('passager','=',False)]}"/>
+                            <field name="pricelist_id"  invisible="1" attrs="{'required':[('passager','=',False)]}"/>
+                            <field name="partner_order_id" invisible="1" domain="[('parent_id','=',partner_id)]" />
+
+                            <field name="partner_invoice_id" invisible="1" domain="[('parent_id','=',partner_id)]" />
+                            <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]"
+                                invisible="1" />
+                        </group>
+
+
+                        <group attrs="{'invisible':[('passager','=',False)]}">
+                            <group>
+                                <field name="passager_name" attrs="{'required':[('passager','=',True)],'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="passager_cin" attrs="{'required':[('passager','=',True)],'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="passager_passport" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+
+                                <field name="passager_phone" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="passager_email" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="passager_street" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+                            </group>
+                        </group>
+
+
+
+
+
+                        <group col="6">
+                            <field name="checkin" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="checkout" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="nightNumber" readonly="1" force_save="1"/>
+                            <field name="adults" required="1" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                            <field name="children" attrs="{'readonly': [('state', '=', 'done')]}"/>
+
+                        </group>
+
+
+                    <notebook>
+                        <page name="cancelled_reservation" string='Cancelled reservation' attrs="{'invisible':[('state','!=','cancel')]}">
+                            <field name="body" style="height: 81px;" attrs="{'readonly': [('is_email_cancel_sended', '=', True)]}"/>
+                            <field name="is_email_cancel_sended" invisible="1"/>
+                            <br/>
+                            <button attrs="{'invisible' : [('is_email_cancel_sended','=',True)]}" name="send_cancelled_email" string="Send email" class="oe_highlight" type="object" />
+                        </page>
+                        <page name="rooms_ids" string='Reservation Line'>
+                            <field name="is_mobile" invisible="1"/>
+                                <!--<div style="    border: 1px #7c7bad solid;-->
+    <!--border-radius: 20px;-->
+    <!--padding: 1%;" >-->
+                            <group col="2" attrs="{'invisible':[('is_mobile','=',False)]}">
+                                <field name="number_rooms_for_mobile" readonly="1"/>
+                                <field name="types_rooms_for_mobile_text" readonly="1" widget="mobile_widget_rt"/>
+                            </group>
+                                    <!--<div class="col">-->
+                                        <!--<p class="btn-primary"><i class="fas fa-mobile-alt"></i></p>-->
+                                    <!--</div>-->
+                            <!--</div>-->
+
+                            <field name="rooms_ids" colspan="4" nolabel="1"
+                            attrs="{'readonly': [('state', '=', 'done')]}" options="{'no_create':True}">
+                                <tree string="Rooms" delete="1">
+                                    <field name="name"/>
+                                    <field name="floor"/>
+                                    <field name="type"/>
+                                    <field name="capacity"/>
+                                </tree>
+                            </field>
+
+
+                        </page>
+                        <page name="services_ids" string='Services'>
+                            <field name="services_ids" colspan="4" nolabel="1" options="{'no_create':True}">
+                                <tree string="Service">
+                                    <field name="name"/>
+                                    <field name="list_price"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="products_sell_ids" string="Products">
+                            <field name="products_reservations" colspan="4" nolabel="1" options="{'no_create':True}">
+                                <tree string="Products" editable="top">
+                                    <field name="product" domain="[('typeOfProduct','=','to_other')]"/>
+                                    <field name="quantity"/>
+                                    <field name="reservation" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--Quick Reservation Form-->
+
+        <record id="quick_room_reservation_form_view" model="ir.ui.view">
+        <field name="name">quick.room.reservation.form</field>
+        <field name="model">quick.room.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Quick Reservation">
+                <header>
+                    <separator string="Quick Reservation" colspan="4" />
+                </header>
+                <sheet>
+
+                    <group col="4">
+                        <field name="passager" string="Passager"/>
+                         <field name="room_id" readonly="1" />
+
+                    </group>
+
+
+
+
+
+                            <group col="4">
+                                <field name="check_in" />
+                                <field name="check_out" />
+                                <field name="nightNumber" string="Night Numbers" readonly="1" force_save="1"/>
+
+                            </group>
+
+                        <group attrs="{'invisible':[('passager','=',True)]}">
+                            <group>
+                                     <field name="partner_id" attrs="{'required':[('passager','=',False)]}"/>
+                                     <field name="pricelist_id" attrs="{'required':[('passager','=',False)]}"/>
+                                     <field name="partner_invoice_id" attrs="{'required':[('passager','=',False)]}"/>
+                        </group>
+                                <group>
+                                     <field name="partner_order_id" attrs="{'required':[('passager','=',False)]}"/>
+                                     <field name="partner_shipping_id" attrs="{'required':[('passager','=',False)]}"/>
+                                </group>
+                        </group>
+                        <group attrs="{'invisible':[('passager','=',False)]}">
+                            <group>
+                                <field name="passager_name" attrs="{'required':[('passager','=',True)]}"/>
+                                <field name="passager_cin" attrs="{'required':[('passager','=',True)]}" placeholder="Identity card code"/>
+                                <field name="passager_passport" placeholder="Passport code"/>
+                            </group>
+                            <group>
+                                <field name="passager_phone" placeholder="Phone number"/>
+                                <field name="passager_email" placeholder="xyz@xyz.xyz"/>
+                                <field name="passager_street" placeholder="Location..."/>
+                            </group>
+
+                        </group>
+                       <group>
+                                <group>
+                           <field name="adults" placeholder="Adultes number"/>
+                                </group>
+                                <group>
+                           <field name="children" placeholder="Children number"/>
+                                </group>
+                       </group>
+
+                </sheet>
+                <footer>
+                    <group colspan="2" col="2">
+                        <button string="Save" name="room_reserve" type="object"
+                            class="btn-primary" />
+                        <button string="Cancel" special="cancel" class="btn-primary" />
+                    </group>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!--/End Form-->
+
+
+    <record id="test_graph_rooms" model="ir.ui.view">
+        <field name="name">test_graph_rooms</field>
+        <field name="model">hotel.reservation</field>
+        <field name="arch" type="xml">
+            <graph string="Salah">
+                <field name="reservation_no" type="row"/>
+                    <field name="adults" type="col"/>
+
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="hotel_reservation_clients_action_view" model="ir.actions.act_window">
+        <field name="name">Reservation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hotel.reservation</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="hotel_reservation_menu_action" groups="gestion_hotel_manager_X2,gestion_hotel_reception" name="reservation" parent="reservation_menu_categ" action="hotel_reservation_clients_action_view" sequence="1"/>
+
+
+</odoo>
